@@ -1,0 +1,7 @@
+= queue-tip
+
+Description goes here.
+
+== Copyright
+
+Copyright (c) 2009 David Balatero. See LICENSE for details.
