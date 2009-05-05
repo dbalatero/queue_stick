@@ -1,0 +1,16 @@
+* Counters (to track stats)
+* Web interface for each queue runner, to get health information
+  as well as processing stats (and view counters)
+  * API to pull stats from
+* Command-line flags for:
+  * --port
+  * --disable-web-server
+* Provides easy interface for implementing a queue worker.
+  * process(record) ?
+  * recover(record) ? 
+  * ensure(record) ?
+* Failure emails for given SQS message?
+* Should never remove a message from the queue if it can't
+  successfully process it.
+* Should allow people to test their queue code easily.
+* Configurable visibility timeout
