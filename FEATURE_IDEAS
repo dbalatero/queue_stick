@@ -9,7 +9,7 @@
   * process(record) ?
   * recover(record) ? 
   * ensure(record) ?
-* Failure emails for given SQS message?
+* (maybe later) Failure emails for given SQS message?
 * Should never remove a message from the queue if it can't
   successfully process it.
 * Should allow people to test their queue code easily.
