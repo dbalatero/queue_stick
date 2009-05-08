@@ -1,7 +1,7 @@
-= queue-tip
+= queue_tip
 
 Description goes here.
 
 == Copyright
 
-Copyright (c) 2009 David Balatero. See LICENSE for details.
+Copyright (c) 2009 David Balatero <dbalatero AT no-spam-gmail>. See LICENSE for details.
