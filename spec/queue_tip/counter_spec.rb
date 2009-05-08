@@ -42,4 +42,22 @@ describe QueueTip::Counter do
       counter.count.should == 50
     end
   end
+
+  describe "increment!" do
+    before(:each) do
+      @counter = QueueTip::Counter.new(:my_counter)
+    end
+
+    it "should increment the count on a counter by one as the default" do
+      lambda {
+        @counter.increment!
+      }.should change(@counter, :count).by(1)
+    end
+
+    it "should increment the count on a counter by the number provided" do
+      lambda { 
+        @counter.increment!(50) 
+      }.should change(@counter, :count).by(50)
+    end
+  end
 end

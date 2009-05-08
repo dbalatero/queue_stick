@@ -7,5 +7,9 @@ module QueueTip
       @name = name
       @count = starting_value
     end
+
+    def increment!(by = 1)
+      @count += by
+    end
   end
 end
