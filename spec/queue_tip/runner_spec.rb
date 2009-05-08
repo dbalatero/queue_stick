@@ -7,7 +7,7 @@ describe QueueTip::Runner do
     end
 
     it "should receive an array of ARGV options" do
-      lambda { 
+      lambda {
         QueueTip::Runner.new(@argv) 
       }.should_not raise_error
     end
