@@ -52,7 +52,7 @@ begin
   task :flog do
     flog = Flog.new
     flog.flog_files ['lib']
-    threshold = 30
+    threshold = 25
 
     bad_methods = flog.totals.select do |name, score|
       score > threshold
@@ -64,4 +64,21 @@ begin
 
     raise "#{bad_methods.size} methods have a flog complexity > #{threshold}" unless bad_methods.empty?
   end
+rescue
+end
+
+begin
+  require 'flay'
+  desc "Analyze for code duplication"
+  task :flay do
+    threshold = 25
+    flay = Flay.new(:fuzzy => false,
+                    :verbose => false,
+                    :mass => threshold)
+    flay.process(*Flay.expand_dirs_to_files(['lib']))
+    flay.report
+
+    raise "#{flay.masses.size} chunks of code have a duplicate mass > #{threshold}" unless flay.masses.empty?
+  end
+rescue
 end
