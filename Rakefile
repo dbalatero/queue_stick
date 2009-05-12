@@ -64,7 +64,7 @@ begin
 
     raise "#{bad_methods.size} methods have a flog complexity > #{threshold}" unless bad_methods.empty?
   end
-rescue
+rescue LoadError
 end
 
 begin
@@ -80,5 +80,5 @@ begin
 
     raise "#{flay.masses.size} chunks of code have a duplicate mass > #{threshold}" unless flay.masses.empty?
   end
-rescue
+rescue LoadError
 end
