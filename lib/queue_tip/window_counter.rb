@@ -1,6 +1,6 @@
 module QueueTip
   class WindowCounter
-    attr_accessor :name
+    attr_reader :name
 
     # Time window is in minutes.
     def initialize(name, window)

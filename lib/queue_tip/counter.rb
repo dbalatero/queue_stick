@@ -1,6 +1,6 @@
 module QueueTip
   class Counter
-    attr_accessor :name, :count
+    attr_reader :name, :count
 
     def initialize(name, starting_value = 0)
       raise ArgumentError,
