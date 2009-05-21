@@ -10,6 +10,8 @@ begin
     gem.homepage = "http://github.com/dbalatero/queue-tip"
     gem.authors = ["David Balatero"]
 
+    gem.add_dependency('sinatra', '>= 0.9.1')
+
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
 rescue LoadError
