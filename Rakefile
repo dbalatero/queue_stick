@@ -84,3 +84,13 @@ begin
   end
 rescue LoadError
 end
+
+begin
+  require 'reek/rake_task'
+  Reek::RakeTask.new do |t|
+    t.fail_on_error = true
+    t.verbose = true
+    t.source_files = 'lib/**/*.rb'
+  end
+rescue LoadError
+end
