@@ -22,4 +22,30 @@ describe QueueTip::BlendedCounter do
       counter.name.should == "my_name"
     end
   end
+
+  describe "counts" do
+    before(:each) do
+      @counter = QueueTip::BlendedCounter.new(:my_counter, 5, 10, 15)
+    end
+
+    it "should return 0 for all values initially" do
+      @counter.counts.should == [0, 0, 0, 0]
+    end
+  end
+
+  describe "increment!" do
+    before(:each) do
+      @counter = QueueTip::BlendedCounter.new(:my_counter, 5, 10, 15)
+    end
+
+    it "should increment each counter by the given amount" do
+      @counter.increment!(10)
+      @counter.counts.should == [10, 10, 10, 10]
+    end
+
+    it "should increment each counter by 1, by default" do
+      @counter.increment!
+      @counter.counts.should == [1, 1, 1, 1]
+    end
+  end
 end

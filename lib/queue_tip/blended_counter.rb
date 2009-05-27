@@ -10,5 +10,14 @@ module QueueTip
         @counters << WindowCounter.new("#{time}", time) 
       end
     end
+
+    def counts
+      @counters.map { |c| c.count }
+    end
+
+    def increment!(by = 1)
+      @counters.each { |c| c.increment!(by) }
+      nil
+    end
   end
 end
