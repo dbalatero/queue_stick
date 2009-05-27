@@ -1,4 +1,4 @@
-* Counters (to track stats)
+DONE * Counters (to track stats)
 * Web interface for each queue runner, to get health information
   as well as processing stats (and view counters)
   * API to pull stats from
@@ -28,8 +28,5 @@ class MyWorker < QueueTip::Worker
   end
 
   def recover
-  end
-
-  def ensure
   end
 end
