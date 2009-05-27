@@ -33,7 +33,7 @@ module QueueTip
     end
 
     def validate_opts!
-      if !@options.disable_web_server and (!@options.port or @options.port < 0 or @options.port > 65535)
+      if !@options.disable_web_server and !(0..65535).include?(@options.port)
         raise MissingPortError, 'QueueTip requires an HTTP port to be passed in with -p or --port.'     
       end
     end

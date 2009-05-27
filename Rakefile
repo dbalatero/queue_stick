@@ -4,10 +4,10 @@ require 'rake'
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name = "queue-tip"
+    gem.name = "queue_tip"
     gem.summary = %Q{TODO}
     gem.email = "dbalatero@gmail.com"
-    gem.homepage = "http://github.com/dbalatero/queue-tip"
+    gem.homepage = "http://github.com/dbalatero/queue_tip"
     gem.authors = ["David Balatero"]
 
     gem.add_dependency('sinatra', '>= 0.9.1')

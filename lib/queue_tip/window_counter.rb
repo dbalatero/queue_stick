@@ -18,6 +18,7 @@ module QueueTip
       @timings = []
     end
 
+    # TODO(dbalatero): break this up?
     def count
       to_delete = []
       sum = 0
@@ -55,11 +56,7 @@ module QueueTip
 
     private
     def times_have_same_minute?(time1, time2)
-      (time1.min == time2.min and
-      time1.hour == time2.hour and
-      time1.day == time2.day and
-      time1.month == time2.month and
-      time1.year == time2.year)
+      time1.to_i / 60 == time2.to_i / 60
     end
 
     def threshold_time
