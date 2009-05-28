@@ -1,5 +1,7 @@
 module QueueTip
   class Worker
+    @@queue_names = {}
+
     def process(message)
       raise NotImplementedError, "Your worker class needs to implement def process(message)!"
     end
@@ -10,9 +12,9 @@ module QueueTip
 
     def self.queue_name(name = nil)
       if name.nil?
-        @@queue_name
+        @@queue_names[self]
       else
-        @@queue_name = name
+        @@queue_names[self] = name
       end
     end
   end
