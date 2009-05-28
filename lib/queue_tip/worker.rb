@@ -17,5 +17,13 @@ module QueueTip
         @@queue_names[self] = name
       end
     end
+
+    def self.visibility_timeout(timeout = nil)
+      if timeout.nil?
+        @@visibility_timeouts[self]
+      else
+        @@visibility_timeouts[self] = timeout
+      end
+    end
   end
 end

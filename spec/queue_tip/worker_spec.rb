@@ -19,6 +19,29 @@ describe QueueTip::Worker do
     end
   end
 
+  describe "visibility_timeout" do
+    it "should set the global SQS visibility timeout for any worker class" do
+      QueueTip::Worker.visibility_timeout(600)
+      QueueTip::Worker.visibility_timeout.should == 600
+    end
+
+    it "should default to 60 seconds" do
+      class BlankWorker < QueueTip::Worker; end
+      BlankWorker.visibility_timeout.should == 60
+    end
+
+    it "should not overwrite each subclass' visibility timeout" do
+      class WorkerC < QueueTip::Worker; end
+      class WorkerD < QueueTip::Worker; end
+
+      WorkerC.visibility_timeout(600)
+      WorkerD.visibility_timeout(15000)
+
+      WorkerC.visibility_timeout.should == 600
+      WorkerD.visibility_timeout.should == 15000
+    end
+  end
+
   describe "process" do
     it "should raise NotImplementedError at the base class" do
       lambda {
