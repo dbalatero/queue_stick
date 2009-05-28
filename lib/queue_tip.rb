@@ -5,6 +5,7 @@ require 'queue_tip/blended_counter'
 require 'queue_tip/runner'
 require 'queue_tip/web_server'
 require 'queue_tip/worker'
+require 'queue_tip/worker_error'
 
 module QueueTip
 end
