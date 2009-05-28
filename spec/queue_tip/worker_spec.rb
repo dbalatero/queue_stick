@@ -51,6 +51,62 @@ describe QueueTip::Worker do
     end
   end
 
+  describe "run_loop" do
+    class RunLoopTestWorker < QueueTip::Worker
+    end
+
+    before(:each) do
+      @worker = RunLoopTestWorker.new
+    end
+
+    it "should not raise an error if #process raises an error/exception" do
+      @worker.should_receive(:process).and_raise(Exception)
+      @worker.should_receive(:recover).and_return(true)
+
+      lambda {
+        @worker.run_loop
+      }.should_not raise_error
+    end
+
+    it "should not raise an error if both #process and #recover raise an error/exception" do
+      @worker.should_receive(:process).and_raise(Exception)
+      @worker.should_receive(:recover).and_raise(Exception)
+
+      lambda {
+        @worker.run_loop
+      }.should_not raise_error
+    end
+
+    it "should call delete_message_from_queue if process succeeds" do
+      @worker.should_receive(:process).and_return(true)
+      @worker.should_receive(:delete_message_from_queue).and_return(true)
+      @worker.run_loop
+    end
+
+    it "should not call delete_message_from_queue if process fails" do
+      @worker.should_receive(:process).and_raise(Exception)
+      @worker.should_receive(:recover).and_return(true)
+      @worker.should_not_receive(:delete_message_from_queue)
+      @worker.run_loop
+    end
+
+    it "should log errors when process fails" do
+      @worker.should_receive(:process).and_raise(Exception)
+      @worker.should_receive(:recover).and_return(true)
+      @worker.run_loop
+
+      @worker.errors.should have(1).thing
+    end
+
+    it "should not log any more errors than MAX_ERRORS" do
+      @worker.should_receive(:process).at_least(:once).and_raise(Exception)
+      @worker.should_receive(:recover).at_least(:once).and_return(true)
+
+      (QueueTip::Worker::MAX_ERRORS*2).times { @worker.run_loop }
+      @worker.errors.should have(QueueTip::Worker::MAX_ERRORS).things
+    end
+  end
+
   describe "recover" do
     it "should raise NotImplementedError at the base class" do
       lambda {
