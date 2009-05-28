@@ -19,8 +19,8 @@ module QueueTip
       parser = OptionParser.new do |opts|
         opts.on('-p',
                 '--port NUMBER',
-                'Bind the queue worker\'s HTTP server to port NUMBER.') do |n|
-          @options.port = n.to_i
+                'Bind the queue worker\'s HTTP server to port NUMBER.') do |port|
+          @options.port = port.to_i
         end
 
         opts.on('-D',

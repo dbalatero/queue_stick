@@ -24,17 +24,17 @@ module QueueTip
       sum = 0
       threshold = threshold_time
       
-      @counts.each_index do |i|
-        if @timings[i] < threshold
-          to_delete << i
+      @counts.each_index do |index|
+        if @timings[index] < threshold
+          to_delete << index
         else
-          sum += @counts[i]
+          sum += @counts[index]
         end
       end
 
-      to_delete.each do |i|
-        @counts.delete_at(i)
-        @timings.delete_at(i)
+      to_delete.each do |index|
+        @counts.delete_at(index)
+        @timings.delete_at(index)
       end
 
       sum
@@ -46,7 +46,7 @@ module QueueTip
       timing = @timings.last
 
       if timing and 
-         times_have_same_minute?(current, timing)
+         self.class.times_have_same_minute?(current, timing)
         @counts[@counts.size - 1] += by
       else
         @counts << by
@@ -55,15 +55,13 @@ module QueueTip
     end
 
     private
-    def times_have_same_minute?(time1, time2)
+    def self.times_have_same_minute?(time1, time2)
       time1.to_i / 60 == time2.to_i / 60
     end
 
     def threshold_time
       current = Time.now
-      current -= (current.sec + @window)
-      current += 60
-      current
+      current - (current.sec + @window) + 60
     end
   end
 end

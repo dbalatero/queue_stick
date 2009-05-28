@@ -12,11 +12,11 @@ module QueueTip
     end
 
     def counts
-      @counters.map { |c| c.count }
+      @counters.map { |counter| counter.count }
     end
 
     def increment!(by = 1)
-      @counters.each { |c| c.increment!(by) }
+      @counters.each { |counter| counter.increment!(by) }
       nil
     end
   end
