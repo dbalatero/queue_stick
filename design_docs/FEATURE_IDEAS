@@ -7,13 +7,12 @@ DONE * Counters (to track stats)
   * --disable-web-server
 * Provides easy interface for implementing a queue worker.
   * process(record) ?
-  * recover(record) ? 
-  * ensure(record) ?
+  * recover ?
 * (maybe later) Failure emails for given SQS message?
-* Should never remove a message from the queue if it can't
-  successfully process it.
-* Should allow people to test their queue code easily.
-* Configurable visibility timeout
+DONE * Should never remove a message from the queue if it can't
+       successfully process it.
+DONE * Should allow people to test their queue code easily.
+DONE * Configurable visibility timeout
 * Generator for queue runner.
 * Each worker should be considered to be run in its own thread,
   and therefore will have access to @local_variables without having
@@ -22,11 +21,15 @@ DONE * Counters (to track stats)
 Possible DSL
 ---------------
 class MyWorker < QueueTip::Worker
+  #DONE
   queue_name :video_transcoding_work
+  visibility_timeout 6000
 
+  #DONE
   def process(message)
   end
 
+  #DONE
   def recover
   end
 end
