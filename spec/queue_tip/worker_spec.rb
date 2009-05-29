@@ -115,4 +115,29 @@ describe QueueTip::Worker do
       }.should raise_error(NotImplementedError)
     end
   end
+
+  describe "counter" do
+    it "should define a counter that the class keeps track of" do
+      class WorkerE < QueueTip::Worker
+        counter :how_many_times_did_chewie_think_with_his_stomach
+      end
+
+      WorkerE.counters.should include(:how_many_times_did_chewie_think_with_his_stomach)
+    end
+
+    it "should always have a counter to keep track of number of messages processed" do
+      QueueTip::Worker.counters.should include(:messages_processed)
+      class WorkerF < QueueTip::Worker
+      end
+      WorkerF.counters.should include(:messages_processed)
+    end
+
+    it "should not add the same counter twice" do
+      QueueTip::Worker.counter :c1
+      QueueTip::Worker.counter :c1
+
+      c1s = QueueTip::Worker.counters.select { |c| c == :c1 }
+      c1s.should have(1).thing
+    end
+  end
 end
