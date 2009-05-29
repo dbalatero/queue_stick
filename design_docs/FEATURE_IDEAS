@@ -2,10 +2,11 @@ DONE * Counters (to track stats)
 * Web interface for each queue runner, to get health information
   as well as processing stats (and view counters)
   * API to pull stats from
+* Pulls from SQS as a queue source.
 * Command-line flags for:
   * --port
   * --disable-web-server
-* Provides easy interface for implementing a queue worker.
+DONE * Provides easy interface for implementing a queue worker.
   * process(record) ?
   * recover ?
 * (maybe later) Failure emails for given SQS message?
@@ -24,6 +25,8 @@ class MyWorker < QueueTip::Worker
   #DONE
   queue_name :video_transcoding_work
   visibility_timeout 6000
+
+  counter :my_counter
 
   #DONE
   def process(message)
