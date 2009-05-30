@@ -5,7 +5,7 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "queue_tip"
-    gem.summary = %Q{TODO}
+    gem.summary = %Q{This library allows you to write the minimal amount of code to process queue messages. Supports SQS out of the box.}
     gem.email = "dbalatero@gmail.com"
     gem.homepage = "http://github.com/dbalatero/queue_tip"
     gem.authors = ["David Balatero"]
