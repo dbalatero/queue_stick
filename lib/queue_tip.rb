@@ -10,5 +10,7 @@ require 'queue_tip/web_server'
 require 'queue_tip/worker'
 require 'queue_tip/worker_error'
 
+require 'queue_tip/mock_worker'
+
 module QueueTip
 end

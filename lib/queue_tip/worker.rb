@@ -12,12 +12,12 @@ module QueueTip
       @errors = []
     end
 
-    # TODO(dbalatero): implement
     def get_message_from_queue
+      raise NotImplementedError, "#get_message_from_queue needs to be implemented in a subclass."
     end
 
-    # TODO(dbalatero): implement
     def delete_message_from_queue(message)
+      raise NotImplementedError, "#delete_message_from_queue needs to be implemented in a subclass."
     end
 
     def run_loop

@@ -56,7 +56,11 @@ describe QueueTip::Worker do
     end
 
     before(:each) do
+      @message = QueueTip::MockMessage.new("foo")
       @worker = RunLoopTestWorker.new
+      @worker.should_receive(:get_message_from_queue).
+        any_number_of_times.
+        and_return(@message)
     end
 
     it "should not raise an error if #process raises an error/exception" do
@@ -138,6 +142,22 @@ describe QueueTip::Worker do
 
       c1s = QueueTip::Worker.counters.select { |c| c == :c1 }
       c1s.should have(1).thing
+    end
+  end
+
+  describe "delete_message_from_queue" do
+    it "should raise a NotImplementedError" do
+      lambda {
+        QueueTip::Worker.new.delete_message_from_queue(nil)
+      }.should raise_error(NotImplementedError)
+    end
+  end
+
+  describe "get_message_from_queue" do
+    it "should raise a NotImplementedError" do
+      lambda {
+        QueueTip::Worker.new.get_message_from_queue
+      }.should raise_error(NotImplementedError)
     end
   end
 end
