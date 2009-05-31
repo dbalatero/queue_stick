@@ -1,4 +1,4 @@
-module QueueTip
+module QueueStick
   class Counter
     attr_reader :name, :count
 

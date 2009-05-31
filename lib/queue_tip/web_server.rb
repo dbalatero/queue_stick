@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'sinatra/base'
 
-module QueueTip
+module QueueStick
   class WebServer < Sinatra::Application
     get '/ping' do
       ''

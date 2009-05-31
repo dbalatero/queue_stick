@@ -1,4 +1,4 @@
-module QueueTip
+module QueueStick
   class Worker
     MAX_ERRORS = 50
 

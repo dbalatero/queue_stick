@@ -1,17 +1,17 @@
-require 'queue_tip/counter'
-require 'queue_tip/window_counter'
-require 'queue_tip/blended_counter'
+require 'queue_stick/counter'
+require 'queue_stick/window_counter'
+require 'queue_stick/blended_counter'
 
-require 'queue_tip/message'
-require 'queue_tip/mock_message'
+require 'queue_stick/message'
+require 'queue_stick/mock_message'
 
-require 'queue_tip/runner'
-require 'queue_tip/web_server'
-require 'queue_tip/worker'
-require 'queue_tip/worker_error'
+require 'queue_stick/runner'
+require 'queue_stick/web_server'
+require 'queue_stick/worker'
+require 'queue_stick/worker_error'
 
-require 'queue_tip/mock_worker'
-require 'queue_tip/sqs_worker'
+require 'queue_stick/mock_worker'
+require 'queue_stick/sqs_worker'
 
-module QueueTip
+module QueueStick
 end

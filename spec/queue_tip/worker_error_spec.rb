@@ -1,9 +1,9 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'spec_helper'))
 
-describe QueueTip::WorkerError do
+describe QueueStick::WorkerError do
   describe "message_id" do
     it "should return the passed in message ID" do
-      error = QueueTip::WorkerError.new(:my_id)
+      error = QueueStick::WorkerError.new(:my_id)
       error.message_id.should == :my_id
     end
   end
@@ -13,14 +13,14 @@ describe QueueTip::WorkerError do
       current_time = Time.now
       Time.should_receive(:now).and_return(current_time)
 
-      error = QueueTip::WorkerError.new(:my_id)
+      error = QueueStick::WorkerError.new(:my_id)
       error.timestamp.should == current_time
     end
   end
 
   describe "exceptions" do
     before(:each) do
-      @error = QueueTip::WorkerError.new(:my_id)
+      @error = QueueStick::WorkerError.new(:my_id)
     end
 
     it "should by default be empty" do

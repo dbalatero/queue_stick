@@ -4,10 +4,10 @@ require 'rake'
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name = "queue_tip"
+    gem.name = "queue_stick"
     gem.summary = %Q{This library allows you to write the minimal amount of code to process queue messages. Supports SQS out of the box.}
     gem.email = "dbalatero@gmail.com"
-    gem.homepage = "http://github.com/dbalatero/queue_tip"
+    gem.homepage = "http://github.com/dbalatero/queue_stick"
     gem.authors = ["David Balatero"]
 
     gem.add_dependency('sinatra', '>= 0.9.1')

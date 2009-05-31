@@ -1,43 +1,43 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'spec_helper'))
 
-describe QueueTip::WindowCounter do
+describe QueueStick::WindowCounter do
   describe "initialize" do
     it "should take a name and time window in minutes for the counter" do
       lambda {
-        QueueTip::WindowCounter.new(:my_counter, 5)
+        QueueStick::WindowCounter.new(:my_counter, 5)
       }.should_not raise_error(ArgumentError)
     end
 
     it "should raise an error if a nil name is provided" do
       lambda {
-        QueueTip::WindowCounter.new(nil, nil)
+        QueueStick::WindowCounter.new(nil, nil)
       }.should raise_error(ArgumentError)
     end
 
     it "should raise an error if a time window is not provided" do
       lambda {
-        QueueTip::WindowCounter.new(:name, nil)
+        QueueStick::WindowCounter.new(:name, nil)
       }.should raise_error(ArgumentError)
     end
   end
 
   describe "name" do
     it "should return the correct name" do
-      counter = QueueTip::WindowCounter.new(:test, 5)
+      counter = QueueStick::WindowCounter.new(:test, 5)
       counter.name.should == :test
     end
   end
 
   describe "count" do
     it "should be zero at construction" do
-      counter = QueueTip::WindowCounter.new(:test, 5)
+      counter = QueueStick::WindowCounter.new(:test, 5)
       counter.count.should == 0
     end
   end
 
   describe "increment!" do
     before(:each) do
-      @counter = QueueTip::WindowCounter.new(:test, 3)
+      @counter = QueueStick::WindowCounter.new(:test, 3)
     end
 
     it "should increment the counter by one, default" do

@@ -1,4 +1,4 @@
-module QueueTip
+module QueueStick
   class WindowCounter
     attr_reader :name
 

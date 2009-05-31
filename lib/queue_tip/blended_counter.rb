@@ -1,4 +1,4 @@
-module QueueTip
+module QueueStick
   class BlendedCounter
     attr_reader :name
 

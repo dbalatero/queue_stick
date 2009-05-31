@@ -1,4 +1,4 @@
-module QueueTip
+module QueueStick
   class WorkerError
     attr_reader :message_id, :timestamp
     attr_accessor :exceptions

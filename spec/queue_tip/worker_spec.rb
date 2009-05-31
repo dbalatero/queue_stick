@@ -1,21 +1,21 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'spec_helper'))
 
-describe QueueTip::Worker do
+describe QueueStick::Worker do
   describe "process" do
     it "should raise NotImplementedError at the base class" do
       lambda {
-        worker = QueueTip::Worker.new
+        worker = QueueStick::Worker.new
         worker.process("my message")
       }.should raise_error(NotImplementedError)
     end
   end
 
   describe "run_loop" do
-    class RunLoopTestWorker < QueueTip::Worker
+    class RunLoopTestWorker < QueueStick::Worker
     end
 
     before(:each) do
-      @message = QueueTip::MockMessage.new("foo")
+      @message = QueueStick::MockMessage.new("foo")
       @worker = RunLoopTestWorker.new
       @worker.should_receive(:get_message_from_queue).
         any_number_of_times.
@@ -65,15 +65,15 @@ describe QueueTip::Worker do
       @worker.should_receive(:process).at_least(:once).and_raise(Exception)
       @worker.should_receive(:recover).at_least(:once).and_return(true)
 
-      (QueueTip::Worker::MAX_ERRORS*2).times { @worker.run_loop }
-      @worker.errors.should have(QueueTip::Worker::MAX_ERRORS).things
+      (QueueStick::Worker::MAX_ERRORS*2).times { @worker.run_loop }
+      @worker.errors.should have(QueueStick::Worker::MAX_ERRORS).things
     end
   end
 
   describe "recover" do
     it "should raise NotImplementedError at the base class" do
       lambda {
-        worker = QueueTip::Worker.new
+        worker = QueueStick::Worker.new
         worker.recover
       }.should raise_error(NotImplementedError)
     end
@@ -81,7 +81,7 @@ describe QueueTip::Worker do
 
   describe "counter" do
     it "should define a counter that the class keeps track of" do
-      class WorkerE < QueueTip::Worker
+      class WorkerE < QueueStick::Worker
         counter :how_many_times_did_chewie_think_with_his_stomach
       end
 
@@ -89,17 +89,17 @@ describe QueueTip::Worker do
     end
 
     it "should always have a counter to keep track of number of messages processed" do
-      QueueTip::Worker.counters.should include(:messages_processed)
-      class WorkerF < QueueTip::Worker
+      QueueStick::Worker.counters.should include(:messages_processed)
+      class WorkerF < QueueStick::Worker
       end
       WorkerF.counters.should include(:messages_processed)
     end
 
     it "should not add the same counter twice" do
-      QueueTip::Worker.counter :c1
-      QueueTip::Worker.counter :c1
+      QueueStick::Worker.counter :c1
+      QueueStick::Worker.counter :c1
 
-      c1s = QueueTip::Worker.counters.select { |c| c == :c1 }
+      c1s = QueueStick::Worker.counters.select { |c| c == :c1 }
       c1s.should have(1).thing
     end
   end
@@ -107,7 +107,7 @@ describe QueueTip::Worker do
   describe "delete_message_from_queue" do
     it "should raise a NotImplementedError" do
       lambda {
-        QueueTip::Worker.new.delete_message_from_queue(nil)
+        QueueStick::Worker.new.delete_message_from_queue(nil)
       }.should raise_error(NotImplementedError)
     end
   end
@@ -115,7 +115,7 @@ describe QueueTip::Worker do
   describe "get_message_from_queue" do
     it "should raise a NotImplementedError" do
       lambda {
-        QueueTip::Worker.new.get_message_from_queue
+        QueueStick::Worker.new.get_message_from_queue
       }.should raise_error(NotImplementedError)
     end
   end

@@ -1,4 +1,4 @@
-module QueueTip
+module QueueStick
   class Message
     attr_reader :raw_message
 
@@ -7,7 +7,7 @@ module QueueTip
     end
 
     def body
-      raise NotImplementedError, "#body needs to be implemented in a subclass of QueueTip::Message"
+      raise NotImplementedError, "#body needs to be implemented in a subclass of QueueStick::Message"
     end
   end
 end

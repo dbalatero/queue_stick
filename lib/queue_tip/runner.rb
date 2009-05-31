@@ -1,7 +1,7 @@
 require 'optparse'
 require 'ostruct'
 
-module QueueTip
+module QueueStick
   class Runner
     class MissingPortError < ArgumentError; end
 
@@ -34,7 +34,7 @@ module QueueTip
 
     def validate_opts!
       if !@options.disable_web_server and !(0..65535).include?(@options.port)
-        raise MissingPortError, 'QueueTip requires an HTTP port to be passed in with -p or --port.'
+        raise MissingPortError, 'QueueStick requires an HTTP port to be passed in with -p or --port.'
       end
     end
   end

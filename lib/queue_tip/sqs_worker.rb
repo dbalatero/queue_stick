@@ -1,4 +1,4 @@
-module QueueTip
+module QueueStick
   class SQSWorker < Worker
     @@queue_names = {}
     @@visibility_timeouts = Hash.new { |h, k| h[k] = 60 }

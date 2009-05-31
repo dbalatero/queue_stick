@@ -1,4 +1,4 @@
-module QueueTip
+module QueueStick
   class MockWorker < Worker
     MOCK_MESSAGE = MockMessage.new("foomessage")
     def get_message_from_queue
