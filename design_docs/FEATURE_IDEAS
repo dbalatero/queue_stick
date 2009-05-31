@@ -2,7 +2,6 @@ DONE * Counters (to track stats)
 * Web interface for each queue runner, to get health information
   as well as processing stats (and view counters)
   * API to pull stats from
-* Pulls from SQS as a queue source.
 * Command-line flags for:
   * --port
   * --disable-web-server
@@ -14,10 +13,16 @@ DONE * Should never remove a message from the queue if it can't
        successfully process it.
 DONE * Should allow people to test their queue code easily.
 DONE * Configurable visibility timeout
-* Generator for queue runner.
-* Each worker should be considered to be run in its own thread,
-  and therefore will have access to @local_variables without having
-  to worry about synchronization.
+
+Push:
+
+* adding a convenience method for accessing counters within a worker
+* running N threads of workers
+* displaying counters / runtime information on the embedded Sinatra app
+* creating a binary to run a worker (queue_tip <my_worker_rb_file> --port 4999, for example)
+* generator for making a skeleton for a queue worker
+DONE * moving the SQS-specific class methods out of Worker into a SQSWorker subclass
+* implement SQS get/delete methods
 
 Possible DSL
 ---------------
