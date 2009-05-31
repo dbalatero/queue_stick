@@ -4,8 +4,6 @@ module QueueTip
 
     attr_reader :errors
 
-    @@queue_names = {}
-    @@visibility_timeouts = Hash.new { |h, k| h[k] = 60 }
     @@counters = Hash.new { |h, k| h[k] = [] }
 
     def initialize
@@ -48,29 +46,12 @@ module QueueTip
       raise NotImplementedError, "Your worker class needs to implement def recover()!"
     end
 
-
     def self.counter(name)
       @@counters[self] << name unless @@counters[self].include?(name)
     end
 
     def self.counters
       @@counters[self]
-    end
-
-    def self.queue_name(name = nil)
-      if name.nil?
-        @@queue_names[self]
-      else
-        @@queue_names[self] = name
-      end
-    end
-
-    def self.visibility_timeout(timeout = nil)
-      if timeout.nil?
-        @@visibility_timeouts[self]
-      else
-        @@visibility_timeouts[self] = timeout
-      end
     end
 
     def self.inherited(child)

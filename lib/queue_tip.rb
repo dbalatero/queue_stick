@@ -11,6 +11,7 @@ require 'queue_tip/worker'
 require 'queue_tip/worker_error'
 
 require 'queue_tip/mock_worker'
+require 'queue_tip/sqs_worker'
 
 module QueueTip
 end
