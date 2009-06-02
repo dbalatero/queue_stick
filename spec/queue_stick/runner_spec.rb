@@ -48,9 +48,15 @@ describe QueueStick::Runner do
     end
 
     it "should start up workers" do
+      mock_worker = mock('worker', :null_object => true)
+      mock_worker.should_receive(:run_loop).and_raise(ArgumentError)
+      QueueStick::Worker.should_receive(:new).at_least(:once).and_return(mock_worker)
+
       runner = QueueStick::Runner.new(@argv, @io_stream)
-      runner.should_receive(:start_workers!)
-      runner.run!(QueueStick::Worker)
+      runner.should_receive(:start_web_server!)
+      lambda {
+        runner.run!(QueueStick::Worker)
+      }.should raise_error(ArgumentError)
     end
   end
 end
