@@ -5,8 +5,8 @@ describe QueueStick::WebServer do
     QueueStick::WebServer
   end
 
-  describe 'GET ping' do
-    before(:each) do
+  describe "GET /ping" do
+    before(:all) do
       get '/ping'
     end
 
@@ -16,6 +16,16 @@ describe QueueStick::WebServer do
 
     it 'should have an empty body' do
       last_response.body.should be_empty
+    end
+  end
+
+  describe "GET /" do
+    before(:all) do
+      get '/'
+    end
+
+    it "should return 200 OK" do
+      last_response.should be_ok
     end
   end
 end
