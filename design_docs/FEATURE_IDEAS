@@ -16,7 +16,7 @@ DONE * Configurable visibility timeout
 
 Push:
 
-* adding a convenience method for accessing counters within a worker
+DONE (7e47dde) * adding a convenience method for accessing counters within a worker
 * running N threads of workers
 * displaying counters / runtime information on the embedded Sinatra app
 * creating a binary to run a worker (queue_stick <my_worker_rb_file> --port 4999, for example)

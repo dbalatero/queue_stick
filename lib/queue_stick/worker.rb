@@ -20,11 +20,10 @@ module QueueStick
     end
 
     def run_loop
-      # TODO(dbalatero): pull the message out
       message = get_message_from_queue
 
       begin
-        process(message) # TODO(dbalatero): send body instead of raw message
+        process(message.body)
         delete_message_from_queue(message)
       rescue Exception => process_error
         error = WorkerError.new(:dummy_id) # TODO(dbalatero): message_id?!
