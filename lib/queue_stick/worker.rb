@@ -8,6 +8,7 @@ module QueueStick
 
     def initialize
       @errors = []
+      create_counters!
     end
 
     def get_message_from_queue
@@ -45,6 +46,18 @@ module QueueStick
     def recover
       raise NotImplementedError, "Your worker class needs to implement def recover()!"
     end
+
+    def counter(counter_name)
+      @counters[counter_name]
+    end
+
+    def create_counters!
+      @counters = {}
+      self.class.counters.each do |counter_name|
+        @counters[counter_name] = BlendedCounter.new(counter_name, 1, 10, 30, 60)
+      end
+    end
+    private :create_counters!
 
     def self.counter(name)
       @@counters[self] << name unless @@counters[self].include?(name)

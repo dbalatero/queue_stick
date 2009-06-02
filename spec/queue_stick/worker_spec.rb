@@ -70,6 +70,19 @@ describe QueueStick::Worker do
     end
   end
 
+  describe "counter" do
+    it "should return a counter that has been defined on the class" do
+      worker = QueueStick::Worker.new
+      counter = worker.counter(:messages_processed)
+      counter.should be_an_instance_of(QueueStick::BlendedCounter)
+    end
+
+    it "should not return a counter if it hasn't been defined for the class" do
+      worker = QueueStick::Worker.new
+      worker.counter(:not_a_counter).should be_nil
+    end
+  end
+
   describe "recover" do
     it "should raise NotImplementedError at the base class" do
       lambda {
@@ -79,7 +92,7 @@ describe QueueStick::Worker do
     end
   end
 
-  describe "counter" do
+  describe "self.counter" do
     it "should define a counter that the class keeps track of" do
       class WorkerE < QueueStick::Worker
         counter :how_many_times_did_chewie_think_with_his_stomach
