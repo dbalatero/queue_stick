@@ -2,7 +2,7 @@ DONE * Counters (to track stats)
 * Web interface for each queue runner, to get health information
   as well as processing stats (and view counters)
   * API to pull stats from
-* Command-line flags for:
+DONE * Command-line flags for:
   * --port
   * --disable-web-server
 DONE * Provides easy interface for implementing a queue worker.
@@ -19,18 +19,19 @@ Push:
 DONE (7e47dde) * adding a convenience method for accessing counters within a worker
 DONE (bab952e) * running N threads of workers
 * displaying counters / runtime information on the embedded Sinatra app
-* creating a binary to run a worker (queue_stick <my_worker_rb_file> --port 4999, for example)
+NOT GOING TO DO * creating a binary to run a worker (queue_stick <my_worker_rb_file> --port 4999, for example)
 * generator for making a skeleton for a queue worker
 DONE * moving the SQS-specific class methods out of Worker into a SQSWorker subclass
 * implement SQS get/delete methods
 
 Possible DSL
 ---------------
-class MyWorker < QueueStick::Worker
+class MyWorker < QueueStick::SQSWorker
   #DONE
   queue_name :video_transcoding_work
   visibility_timeout 6000
 
+  # DONE
   counter :my_counter
 
   #DONE
