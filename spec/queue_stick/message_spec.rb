@@ -10,6 +10,15 @@ describe QueueStick::Message do
     end
   end
 
+  describe "id" do
+    it "should raise NotImplementedError" do
+      message = QueueStick::Message.new(:foo)
+      lambda {
+        message.id
+      }.should raise_error(NotImplementedError)
+    end
+  end
+
   describe "raw_message" do
     it "should return whatever was passed into the constructor" do
       message = QueueStick::Message.new(:foo)

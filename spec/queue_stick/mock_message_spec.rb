@@ -7,4 +7,11 @@ describe QueueStick::MockMessage do
       message.body.should == :foo
     end
   end
+
+  describe "id" do
+    it "should return an random number" do
+      message = QueueStick::MockMessage.new(:foo)
+      message.id.should =~ /\d+/
+    end
+  end
 end

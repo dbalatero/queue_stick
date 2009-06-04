@@ -9,5 +9,9 @@ module QueueStick
     def body
       raise NotImplementedError, "#body needs to be implemented in a subclass of QueueStick::Message"
     end
+
+    def id
+      raise NotImplementedError, "#id needs to be implemented in a subclass of QueueStick::Message"
+    end
   end
 end
