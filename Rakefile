@@ -11,6 +11,7 @@ begin
     gem.authors = ["David Balatero"]
 
     gem.add_dependency('sinatra', '>= 0.9.2')
+    gem.add_dependency('right_aws', '>= 1.10.0')
 
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
