@@ -8,6 +8,7 @@ require 'queue_stick/blended_counter'
 
 require 'queue_stick/message'
 require 'queue_stick/mock_message'
+require 'queue_stick/sqs_message'
 
 require 'queue_stick/runner'
 require 'queue_stick/web_server'
