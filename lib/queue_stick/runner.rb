@@ -16,12 +16,8 @@ module QueueStick
       @io.puts "================================="
       @io.puts "Booting up a queue_stick worker..."
 
-      $0 = "queue_stick: #{worker_klass}"
       initialize_workers!(worker_klass)
-      unless @options.disable_web_server
-        $0 += " (on port #{@options.port})"
-        start_web_server!
-      end
+      start_web_server! unless @options.disable_web_server
       start_workers!
     end
 
