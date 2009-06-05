@@ -1,0 +1,115 @@
+  div.counters h2 {
+    font-size: 123.1%;
+  }
+
+  h1 {
+    font-size: 197%; /* 24px */
+  }
+  body {
+    font-family: "Helvetica Neue",Helvetica;
+    height: 100%;
+  }
+
+  .divider {
+    border-bottom: 5px solid #999;
+  }
+
+  strong {
+    font-weight: bold;
+  }
+
+  li.error-detail {
+    /*display: none;*/
+    padding: 4px;
+  }
+
+  span.network {
+    font-weight: bold;
+    background-color: #b1f100;
+    border: 1px solid #739d00;
+  }
+
+  table.counter td, table.counter th {
+    padding: 2px;
+  }
+
+  table.counter thead tr {
+    border-bottom: 1px solid #999;
+  }
+
+  table.counter tbody tr td {
+    text-align: center;
+  }
+
+  table.counter thead tr th {
+    font-weight: bold;
+  }
+
+  table.counter tfoot tr {
+    border-top: 1px solid #999;
+  }
+
+  table.counter tfoot tr th {
+    text-align: center;
+  }
+
+  table.counter th.left {
+    text-align: left;
+  }
+
+  #header-container {
+    margin-bottom: 10px;
+  }
+
+  #ft {
+    border-top: 5px solid #999;
+  }
+
+  div.padded {
+    padding: 8px;
+  }
+
+  td.blue {
+    color: #0e13d2;
+    font-weight: bold;
+  }
+
+  span.klass {
+    color: #444;
+    font-weight: bold;
+  }
+
+  span.time {
+    font-weight: bold;
+  }
+
+  span.desc {
+    font-style: italic;
+  }
+
+  li.error {
+    font-size: 88%;
+    background-color: #ffb4b4;
+    background-image: url('images/exclamation.png');
+    background-repeat: no-repeat;
+    background-position: center left;
+    padding: 5px;
+    border-bottom: 1px solid red;
+    cursor: pointer;
+    padding-left: 20px;
+  }
+
+  li.error:hover {
+    background-color: #fe8787;
+  }
+
+  ul {
+    list-style: none;
+  }
+
+  li.error-detail pre {
+    padding: 8px;
+    width: 95%;
+    overflow: auto;
+  }
+
