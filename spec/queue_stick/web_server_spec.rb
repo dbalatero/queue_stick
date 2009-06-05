@@ -21,11 +21,18 @@ describe QueueStick::WebServer do
 
   describe "GET /" do
     before(:all) do
+      runner = mock
+      runner.should_receive(:start_time).and_return(Time.now)
+      app.set :queue_runner, runner
       get '/'
     end
 
     it "should return 200 OK" do
       last_response.should be_ok
+    end
+
+    it "should have the person's username in the template" do
+      last_response.body.should =~ /Job started by.*#{ENV['USER']}/
     end
   end
 end

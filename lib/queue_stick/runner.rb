@@ -6,10 +6,14 @@ module QueueStick
     class MissingPortError < ArgumentError; end
     class NumWorkersError < ArgumentError; end
 
+    attr_reader :workers
+    attr_reader :start_time
+
     def initialize(argv, io_stream = STDOUT)
       parse_opts!(argv)
       validate_opts!
       @io = io_stream
+      @start_time = Time.now.freeze
     end
 
     def run!(worker_klass)
@@ -29,19 +33,25 @@ module QueueStick
 
     def start_web_server!
       @io.puts "Starting a web server on port #{@options.port}..."
-      Thread.new(@options.port, @workers) do |port, workers|
+      Thread.new(@options.port, self) do |port, runner|
         require 'sinatra/base'
         app = Sinatra.new(QueueStick::WebServer) do
           set :port, port
-          set :queue_stick_workers, workers
+          set :queue_runner, runner
         end
         app.run!
       end
     end
 
+    def errors
+      workers.map { |worker|
+        worker.errors
+      }.flatten!
+    end
+
     def start_workers!
-      @io.puts "Starting up #{@workers.size} workers..."
-      @threads = @workers.map do |worker|
+      @io.puts "Starting up #{workers.size} workers..."
+      @threads = workers.map do |worker|
         Thread.new do
           worker.run_loop while true
         end

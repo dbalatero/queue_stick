@@ -32,6 +32,42 @@ describe QueueStick::Runner do
     end
   end
 
+  describe "start_time" do
+    it "should be set once and then frozen" do
+      time = Time.now
+      Time.should_receive(:now).and_return(time)
+
+      runner = QueueStick::Runner.new(@argv, @io_stream)
+      runner.start_time.should be_frozen
+      runner.start_time.should == time
+    end
+  end
+
+  describe "workers" do
+    it "should respond to workers" do
+      runner = QueueStick::Runner.new(@argv, @io_stream)
+      runner.should respond_to(:workers)
+    end
+  end
+
+  describe "errors" do
+    it "should return an aggregate of all the errors across all threads" do
+      worker1 = mock
+      worker1.should_receive(:errors).and_return([:w1e1, :w1e2, :w1e3])
+      worker2 = mock
+      worker2.should_receive(:errors).and_return([:w2e1, :w2e2])
+
+      runner = QueueStick::Runner.new(@argv, @io_stream)
+      runner.should_receive(:workers).and_return([worker1, worker2])
+      errors = runner.errors
+
+      errors.should have(5).things
+      [:w1e1, :w1e2, :w1e3, :w2e1, :w2e2].each do |error|
+        errors.should include(error)
+      end
+    end
+  end
+
   describe "run!" do
     it "should initialize the workers" do
       runner = QueueStick::Runner.new(['--disable-web-server', '--port', '1234'], @io_stream)

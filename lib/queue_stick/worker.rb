@@ -1,5 +1,6 @@
 module QueueStick
   class Worker
+    # TODO(dbalatero): configurable?
     MAX_ERRORS = 50
 
     attr_reader :errors
