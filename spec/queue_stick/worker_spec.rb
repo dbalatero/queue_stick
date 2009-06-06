@@ -40,6 +40,14 @@ describe QueueStick::Worker do
       }.should_not raise_error
     end
 
+    it "should automatically increment messages_processed on each loop" do
+      worker = QueueStick::MockWorker.new
+      worker.run_loop
+      worker.counter(:messages_processed).counts[0].should == 1
+      worker.run_loop
+      worker.counter(:messages_processed).counts[0].should == 2
+    end
+
     it "should call delete_message_from_queue if process succeeds" do
       @worker.should_receive(:process).and_return(true)
       @worker.should_receive(:delete_message_from_queue).and_return(true)
@@ -51,6 +59,17 @@ describe QueueStick::Worker do
       @worker.should_receive(:recover).and_return(true)
       @worker.should_not_receive(:delete_message_from_queue)
       @worker.run_loop
+    end
+
+    it "should terminate after a run if the current thread's :shutdown variable is set" do
+      worker = QueueStick::MockWorker.new
+      thread = Thread.new do
+        worker.run_loop while true
+      end
+      thread[:shutdown] = true
+
+      thread.join
+      thread.should_not be_alive
     end
 
     it "should log errors when process fails" do

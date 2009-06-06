@@ -21,13 +21,17 @@ module QueueStick
     end
 
     def run_loop
+      # Exit the run loop if we get a shutdown request.
+      Thread.current.exit if Thread.current[:shutdown]
+
       message = get_message_from_queue
 
       begin
         process(message.body)
         delete_message_from_queue(message)
+        counter(:messages_processed).increment!
       rescue Exception => process_error
-        error = WorkerError.new(:dummy_id) # TODO(dbalatero): message_id?!
+        error = WorkerError.new(message.id)
         error.exceptions << process_error
         begin
           recover
