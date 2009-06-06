@@ -7,7 +7,7 @@ describe QueueStick::SQSWorker do
       
       @queue = mock('sqs_queue', :null_object => true)
       @sqs = mock('sqs_gen2', :null_object => true)
-      @sqs.should_receive(:queue).with(:my_test_queue, true).and_return(@queue)
+      @sqs.should_receive(:queue).with('my_test_queue', true).and_return(@queue)
       RightAws::SqsGen2.should_receive(:new).and_return(@sqs)
       @worker = QueueStick::SQSWorker.new
     end

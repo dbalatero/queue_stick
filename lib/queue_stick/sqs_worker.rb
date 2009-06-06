@@ -12,7 +12,7 @@ module QueueStick
                                      :signature_version => '1')
 
       # Create the queue if it doesn't exist
-      @sqs_queue = @sqs.queue(self.class.queue_name, true)
+      @sqs_queue = @sqs.queue(self.class.queue_name.to_s, true)
     end
 
     def delete_message_from_queue(message)
