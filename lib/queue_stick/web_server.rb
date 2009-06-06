@@ -21,7 +21,7 @@ module QueueStick
       #     :thread_id => counter
       #   }
       #
-      # TODO(dbalatero): refactor this shit
+      # TODO(dbalatero): refactor all this shit
       @counters = Hash.new { |h, k| h[k] = {} }
       @total_counts = {}
       @workers.each do |worker|

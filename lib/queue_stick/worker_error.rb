@@ -1,10 +1,10 @@
 module QueueStick
   class WorkerError
-    attr_reader :message_id, :timestamp
+    attr_reader :message, :timestamp
     attr_accessor :exceptions
 
-    def initialize(message_id)
-      @message_id = message_id
+    def initialize(message)
+      @message = message
       @timestamp = Time.now
       @exceptions = []
     end

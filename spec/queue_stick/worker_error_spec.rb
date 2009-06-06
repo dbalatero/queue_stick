@@ -1,10 +1,11 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'spec_helper'))
 
 describe QueueStick::WorkerError do
-  describe "message_id" do
-    it "should return the passed in message ID" do
-      error = QueueStick::WorkerError.new(:my_id)
-      error.message_id.should == :my_id
+  describe "message" do
+    it "should return the passed in message" do
+      message = QueueStick::MockMessage.new(:foo)
+      error = QueueStick::WorkerError.new(message)
+      error.message.should == message
     end
   end
 

@@ -38,7 +38,7 @@ module QueueStick
         delete_message_from_queue(message)
         counter(:messages_processed).increment!
       rescue Exception => process_error
-        error = WorkerError.new(message.id)
+        error = WorkerError.new(message)
         error.exceptions << process_error
         begin
           recover
