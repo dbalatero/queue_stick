@@ -6,6 +6,7 @@ module QueueStick
     @@visibility_timeouts = Hash.new { |h, k| h[k] = 60 }
 
     def initialize
+      super
       @sqs = RightAws::SqsGen2.new(self.class.aws_access_key_id,
                                      self.class.aws_secret_access_key,
                                      :multi_thread => false,
