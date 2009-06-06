@@ -4,11 +4,19 @@ module QueueStick
 
     def initialize(name, *timings)
       @name = name
-      @counters = [Counter.new("0")]
+      @counters = [Counter.new("Total")]
 
       timings.each do |time|
-        @counters << WindowCounter.new("#{time}", time) 
+        @counters << WindowCounter.new("#{time} mins", time) 
       end
+    end
+
+    def size
+      @counters.size
+    end
+
+    def names
+      @counters.map { |counter| counter.name }
     end
 
     def counts

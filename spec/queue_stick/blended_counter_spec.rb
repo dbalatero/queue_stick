@@ -23,6 +23,20 @@ describe QueueStick::BlendedCounter do
     end
   end
 
+  describe "names" do
+    it "should output human-readable names for the values it is tracking" do
+      @counter = QueueStick::BlendedCounter.new(:my_counter, 5, 10, 15)
+      @counter.names.should == ["Total", "5 mins", "10 mins", "15 mins"]
+    end
+  end
+
+  describe "size" do
+    it "should return the number of subcounters" do
+      counter = QueueStick::BlendedCounter.new(:name, 5)
+      counter.size.should == 2
+    end
+  end
+
   describe "counts" do
     before(:each) do
       @counter = QueueStick::BlendedCounter.new(:my_counter, 5, 10, 15)
