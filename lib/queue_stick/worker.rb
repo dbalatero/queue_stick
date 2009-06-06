@@ -28,6 +28,10 @@ module QueueStick
       Thread.current.exit if Thread.current[:shutdown]
 
       message = get_message_from_queue
+      if message.nil?
+        sleep(5)
+        return
+      end
 
       begin
         process(message.body)

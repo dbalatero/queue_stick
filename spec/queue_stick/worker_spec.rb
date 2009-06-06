@@ -40,6 +40,23 @@ describe QueueStick::Worker do
       }.should_not raise_error
     end
 
+    it "should put itself to sleep and return if there are no queue messages" do
+      worker = QueueStick::MockWorker.new
+      worker.should_receive(:get_message_from_queue).and_return(nil)
+      worker.should_not_receive(:process)
+      
+      t = Thread.new(worker) do |w|
+        w.run_loop
+      end
+
+      # wait for sleep
+      while !t.stop?
+      end
+
+      t.status.should == 'sleep'
+      t.kill
+    end
+
     it "should automatically increment messages_processed on each loop" do
       worker = QueueStick::MockWorker.new
       worker.run_loop
