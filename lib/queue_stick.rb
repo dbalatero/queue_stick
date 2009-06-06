@@ -4,6 +4,7 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 
 require 'right_aws'
 
+require 'queue_stick/helpers'
 require 'queue_stick/counter'
 require 'queue_stick/window_counter'
 require 'queue_stick/blended_counter'
