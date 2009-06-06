@@ -12,6 +12,9 @@ module QueueStick
       create_counters!
     end
 
+    # This method needs to return either:
+    # a) a Message object if there is something in the queue
+    # b) nil if there is nothing in the queue
     def get_message_from_queue
       raise NotImplementedError, "#get_message_from_queue needs to be implemented in a subclass."
     end
