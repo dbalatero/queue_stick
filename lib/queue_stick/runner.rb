@@ -15,6 +15,7 @@ module QueueStick
     def initialize(argv, io_stream = STDOUT)
       parse_opts!(argv)
       validate_opts!
+
       @io = io_stream
       @start_time = Time.now.freeze
       @status = :booting
@@ -35,6 +36,10 @@ module QueueStick
       @io.puts "Initializing #{@options.num_workers} workers..."
       @workers = []
       @options.num_workers.times { @workers << worker_klass.new }
+    end
+
+    def port
+      @options.port
     end
 
     def start_web_server!

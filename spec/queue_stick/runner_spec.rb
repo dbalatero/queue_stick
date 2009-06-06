@@ -6,6 +6,18 @@ describe QueueStick::Runner do
     @io_stream = StringIO.new
   end
 
+  describe "port" do
+    it "should return the port that the web server is running on" do
+      runner = QueueStick::Runner.new(@argv, @io_stream)
+      runner.port.should == 8193
+    end
+
+    it "should return nil when there is no web server running" do
+      runner = QueueStick::Runner.new(['--disable-web-server'], @io_stream)
+      runner.port.should be_nil
+    end
+  end
+
   describe "initialize" do
     it "should receive an array of ARGV options and a worker class" do
       lambda {
