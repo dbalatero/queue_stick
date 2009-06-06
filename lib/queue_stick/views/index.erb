@@ -22,7 +22,10 @@
     <h1>queue_stick</h1>
     <div class="yui-g" id="header-container">
       <div class="yui-u first">
-        <em>Job started by <span class="network"><%= @username %></span> <%= @start_time %></em></li>
+        <em>
+          Job started by <span class="network"><%= @username %></span> <%= @start_time %><br />
+          Current status: <span class="network"><%= @status %></span>
+        </em></li>
       </div>
       <div class="yui-u">
         <em>Running on IP <span class="network">TODO</span> / <span class="network"><%= @hostname %></span><br />Port <span class="network">TODO</span></em>
@@ -32,43 +35,37 @@
   <div id="bd" role="main">
     <div class="yui-g padded">
       <div class="yui-u first counters">
-        <h2>Messages processed</h2>
-        <table id="messages_processed" class="counter">
+      <% @counters.each do |counter_name, info| %>
+        <h2><%= readable_name(counter_name) %></h2>
+        <table id="<%= counter_name %>" class="counter">
           <thead>
             <tr>
               <th>Thread</th>
-              <th>Total</th>
-              <th>&lt;5 mins</th>
-              <th>&lt;10 mins</th>
-              <th>&lt;30 mins</th>
+              <% info[:names].each do |name| %>
+                <th><%= name %></th>
+              <% end %>
             </tr>
           </thead>
           <tbody>
+            <% info[:workers].each do |worker_name, counts| %>
             <tr>
-              <td class="blue">VideoTranscoder&lt;#0x8389afd&gt;</td>
-              <td>300</td>
-              <td>200</td>
-              <td>100</td>
-              <td>20</td>
+              <td class="blue"><%= h(worker_name) %></td>
+              <% counts.each do |count| %>
+              <td><%= count %></td>
+              <% end %>
             </tr>
-            <tr>
-              <td class="blue">VideoTranscoder&lt;#0x8389afc&gt;</td>
-              <td>345</td>
-              <td>201</td>
-              <td>150</td>
-              <td>25</td>
-            </tr>
+            <% end %>
           </tbody>
           <tfoot>
             <tr>
               <th class="left"><strong>Totals</strong></td>
-              <th>645</td>
-              <th>401</td>
-              <th>250</td>
-              <th>45</td>
+              <% info[:totals].each do |total| %>
+              <th><%= total %></th>
+              <% end %>
             </tr>
           </tfoot>
         </table>
+      <% end %>
       </div>
       <div class="yui-u">
         <h1>Errors (3)</h1>

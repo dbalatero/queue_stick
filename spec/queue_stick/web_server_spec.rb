@@ -23,6 +23,13 @@ describe QueueStick::WebServer do
     before(:all) do
       runner = mock
       runner.should_receive(:start_time).and_return(Time.now)
+      runner.should_receive(:status).and_return(:running)
+
+      workers = [QueueStick::MockWorker.new,
+                 QueueStick::MockWorker.new,
+                 QueueStick::MockWorker.new]
+      runner.should_receive(:workers).and_return(workers)
+
       app.set :queue_runner, runner
       get '/'
     end
@@ -33,6 +40,16 @@ describe QueueStick::WebServer do
 
     it "should have the person's username in the template" do
       last_response.body.should =~ /Job started by.*#{ENV['USER']}/
+    end
+
+    it "should put the runner status in the template" do
+      last_response.body.should =~ /Current status:.*running/
+    end
+
+    describe "messages_processed counter" do
+      it "should have the messages_processed counter header" do
+        last_response.body.should =~ /<h\d>Messages processed<\/h\d>/
+      end
     end
   end
 end
