@@ -14,6 +14,7 @@ module QueueStick
       @hostname = `hostname`.chomp! rescue nil
       @status = options.queue_runner.status.to_s.gsub(/_/, ' ')
       @workers = options.queue_runner.workers
+      @port = options.queue_runner.port
 
       # Hash of
       #   :counter_name => {

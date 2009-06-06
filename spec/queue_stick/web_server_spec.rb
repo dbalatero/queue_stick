@@ -25,6 +25,9 @@ describe QueueStick::WebServer do
       runner.should_receive(:start_time).and_return(Time.now)
       runner.should_receive(:status).and_return(:running)
 
+      # half-life DM, son!
+      runner.should_receive(:port).and_return(27015)
+
       workers = [QueueStick::MockWorker.new,
                  QueueStick::MockWorker.new,
                  QueueStick::MockWorker.new]
@@ -44,6 +47,10 @@ describe QueueStick::WebServer do
 
     it "should put the runner status in the template" do
       last_response.body.should =~ /Current status:.*running/
+    end
+
+    it "should put the worker port in the template" do
+      last_response.body.should =~ /port.*27015/
     end
 
     describe "messages_processed counter" do
