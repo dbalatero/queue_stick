@@ -5,7 +5,7 @@ module Kernel
   alias :old_trap :trap
 
   def trap(*args, &block)
-    if args[0] == :INT || args[0] = 'INT'
+    if args[0] == :INT || args[0] == 'INT'
       $TRAP_INT_OCCURRED = true
     end
 
