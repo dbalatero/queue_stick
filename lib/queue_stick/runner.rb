@@ -38,9 +38,8 @@ module QueueStick
     end
 
     def start_web_server!
-      @io.puts "Starting a web server on port #{@options.port}..."
- 
       runner = self
+      port = @options.port
       @sinatra_app = Sinatra.new(QueueStick::WebServer) do
         set :port, port
         set :queue_runner, runner
