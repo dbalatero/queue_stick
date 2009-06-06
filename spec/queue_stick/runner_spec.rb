@@ -32,6 +32,66 @@ describe QueueStick::Runner do
     end
   end
 
+  describe "booting?" do
+    it "should be true if the status == :booting" do
+      runner = QueueStick::Runner.new(@argv, @io_stream)
+      runner.should_receive(:status).and_return(:booting)
+      runner.should be_booting
+    end
+  end
+
+  describe "running?" do
+    it "should be true if the status == :running" do
+      runner = QueueStick::Runner.new(@argv, @io_stream)
+      runner.should_receive(:status).and_return(:running)
+      runner.should be_running
+    end
+  end
+
+  describe "shutting_down?" do
+    it "should be true if the status == :shutting_down" do
+      runner = QueueStick::Runner.new(@argv, @io_stream)
+      runner.should_receive(:status).and_return(:shutting_down)
+      runner.should be_shutting_down
+    end
+  end
+
+  describe "status" do
+    it "should be :booting on initialization" do
+      runner = QueueStick::Runner.new(@argv, @io_stream)
+      runner.status.should == :booting
+    end
+
+    it "should be :running after booting" do
+      runner = QueueStick::Runner.new(["--disable-web-server"], @io_stream)
+      t = Thread.new(runner) do |r|
+        r.run!(QueueStick::MockWorker)
+      end
+
+      # wait until it finishes booting up
+      while runner.booting?
+      end
+
+      runner.status.should == :running
+      t.kill
+    end
+
+    it "should be :shutting_down after an interrupt" do
+      runner = QueueStick::Runner.new(["--disable-web-server"], @io_stream)
+      t = Thread.new(runner) do |r|
+        r.run!(QueueStick::MockWorker)
+      end
+
+      # Wait to get into a running state
+      while !runner.running?
+      end
+
+      runner.shutdown!
+      runner.status.should == :shutting_down
+      t.kill
+    end
+  end
+
   describe "start_time" do
     it "should be set once and then frozen" do
       time = Time.now

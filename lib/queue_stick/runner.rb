@@ -25,7 +25,9 @@ module QueueStick
       @io.puts "Booting up a queue_stick worker..."
 
       initialize_workers!(worker_klass)
-      start_web_server! unless @options.disable_web_server
+      unless @options.disable_web_server
+        @sinatra_thread = start_web_server!
+      end
       start_workers!
     end
 
@@ -37,12 +39,14 @@ module QueueStick
 
     def start_web_server!
       @io.puts "Starting a web server on port #{@options.port}..."
-      Thread.new(@options.port, self) do |port, runner|
-        require 'sinatra/base'
-        app = Sinatra.new(QueueStick::WebServer) do
-          set :port, port
-          set :queue_runner, runner
-        end
+ 
+      runner = self
+      @sinatra_app = Sinatra.new(QueueStick::WebServer) do
+        set :port, port
+        set :queue_runner, runner
+      end
+
+      Thread.new(@sinatra_app) do |app|
         app.run!
       end
     end
@@ -54,6 +58,23 @@ module QueueStick
     end
 
     def start_workers!
+      @threads = []
+
+      unless $DISABLE_TRAPS # make our tests not trap(:INT).
+        # Make sure we register our trap(:INT)
+        # *after* Sinatra registers its trap(:INT),
+        # otherwise we will be fucked.
+        while @sinatra_app
+          break if $TRAP_INT_OCCURRED
+        end
+
+        trap(:INT) do
+          # Shutdown each thread on Ctrl+C
+          puts "Got Ctrl+C... waiting for #{@threads.size} threads to finish their current job."
+          shutdown!
+        end
+      end
+
       @io.puts "Starting up #{workers.size} workers..."
       @threads = workers.map do |worker|
         Thread.new do

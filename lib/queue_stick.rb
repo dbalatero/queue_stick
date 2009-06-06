@@ -2,7 +2,17 @@
 # file and get the library in.
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 
+########## THIS SUCKS TAKE IT OUT ##############
+# (as soon as 
+#   http://github.com/dbalatero/sinatra/commit/5fb4d1904dbbd79dfe3f06c9868c0603baf4dd80 is merged into Sinatra)
+##########
+require 'queue_stick/trap_hack'
+
+
+# External deps
+require 'rubygems'
 require 'right_aws'
+require 'sinatra/base'
 
 require 'queue_stick/helpers'
 require 'queue_stick/counter'
