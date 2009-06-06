@@ -8,5 +8,11 @@ module QueueStick
     def delete_message_from_queue(message)
       # no-op
     end
+
+    def process(message)
+    end
+
+    def recover
+    end
   end
 end
