@@ -6,14 +6,18 @@ module QueueStick
     class MissingPortError < ArgumentError; end
     class NumWorkersError < ArgumentError; end
 
+    STATUSES = [:booting, :running, :shutting_down]
+
     attr_reader :workers
     attr_reader :start_time
+    attr_reader :status
 
     def initialize(argv, io_stream = STDOUT)
       parse_opts!(argv)
       validate_opts!
       @io = io_stream
       @start_time = Time.now.freeze
+      @status = :booting
     end
 
     def run!(worker_klass)
@@ -56,7 +60,31 @@ module QueueStick
           worker.run_loop while true
         end
       end
+
+      @status = :running
+
+      
       @threads.each { |thread| thread.join }
+    end
+
+    def booting?
+      status == :booting
+    end
+
+    def running?
+      status == :running
+    end
+
+    def shutting_down?
+      status == :shutting_down
+    end
+
+    def shutdown!
+      @status = :shutting_down
+
+      @threads.each do |thread|
+        thread[:shutdown] = true 
+      end
     end
 
     private
