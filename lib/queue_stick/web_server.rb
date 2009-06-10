@@ -3,10 +3,11 @@ require 'rubygems'
 module QueueStick
   class WebServer < Sinatra::Application
     set :environment, ($SINATRA_ENV ? $SINATRA_ENV : 'production')
-    set :static, true
     set :public, File.expand_path(File.dirname(__FILE__) + '/../../public')
     set :views, File.expand_path(File.dirname(__FILE__) + '/views')
-    set :raise_errors, true
+    enable :raise_errors
+    enable :static
+    disable :logging
 
     get '/' do
       @start_time = options.queue_runner.start_time
