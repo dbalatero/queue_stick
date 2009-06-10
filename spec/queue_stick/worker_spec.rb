@@ -97,7 +97,7 @@ describe QueueStick::Worker do
 
     it "should not call delete_message_from_queue if process fails" do
       @worker.should_receive(:process).and_raise(Exception)
-      @worker.should_receive(:recover).and_return(true)
+      @worker.should_receive(:recover).with(anything).and_return(true)
       @worker.should_not_receive(:delete_message_from_queue)
       @worker.run_loop
     end
