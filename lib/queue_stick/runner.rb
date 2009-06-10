@@ -50,8 +50,14 @@ module QueueStick
         set :queue_runner, runner
       end
 
+      # Raise errors in the main thread, but don't join.
+      main = Thread.current
       Thread.new(@sinatra_app) do |app|
-        app.run!
+        begin
+          app.run!
+        rescue Exception => error
+          main.raise error
+        end
       end
     end
 
@@ -88,7 +94,6 @@ module QueueStick
 
       @status = :running
 
-      
       @threads.each { |thread| thread.join }
     end
 
