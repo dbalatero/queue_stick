@@ -74,7 +74,7 @@
           <li class="error" id="error-<%= id %>">
             <span class="klass"><%= error.exceptions[0].class.to_s %></span> | 
             <span class="time"><%= time_ago_or_time_stamp(error.timestamp) %></span> | 
-            <span class="desc"><%= truncate(error.exceptions[0].message, 20) %></span>
+            <span class="desc"><%= truncate(error.exceptions[0].message, 35) %></span>
           </li>
           <li class="error-detail" id="error-<%= id %>-detail">
               <ul>
