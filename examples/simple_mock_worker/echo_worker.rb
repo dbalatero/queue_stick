@@ -7,7 +7,7 @@ class EchoWorker < QueueStick::MockWorker
       raise ArgumentError, "We got an error processing this message!"
     else
       puts message
-      sleep 2
+      sleep 4
     end
   end
 
