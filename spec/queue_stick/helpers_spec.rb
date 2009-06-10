@@ -19,4 +19,16 @@ describe QueueStick::Helpers do
       result.should_not =~ />/
     end
   end
+
+  describe "truncate" do
+    it "should not put ... after a string that is less than max length" do
+      result = truncate('string', 20)
+      result.should == 'string'
+    end
+
+    it "should truncate a string that is more than max length" do
+      result = truncate('string', 5)
+      result.should == 'strin...'
+    end
+  end
 end
