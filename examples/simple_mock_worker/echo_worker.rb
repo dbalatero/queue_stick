@@ -2,8 +2,8 @@ require File.dirname(__FILE__) + '/../../lib/queue_stick'
 
 class EchoWorker < QueueStick::MockWorker
   def process(message)
-    if rand < 0.15
-      # 15% chance of raising an error!
+    if rand < 0.25
+      # I like these odds!
       raise ArgumentError, "We got an error processing this message!"
     else
       puts message
