@@ -27,10 +27,25 @@ describe QueueStick::WebServer do
 
       # half-life DM, son!
       runner.should_receive(:port).and_return(27015)
-
+      
       workers = [QueueStick::MockWorker.new,
                  QueueStick::MockWorker.new,
                  QueueStick::MockWorker.new]
+
+      message = QueueStick::MockMessage.new("{ 'my_json':'json value' }")
+      worker_error = QueueStick::WorkerError.new(message)
+
+      # Kinda ghetto... but I want a stack trace.
+      begin
+        raise ArgumentError, "You passed in the wrong thing!"
+      rescue ArgumentError => error
+        worker_error.exceptions << error
+      end
+
+      workers[0].should_receive(:errors).and_return([worker_error])
+      workers[1].should_receive(:errors).and_return([])
+      workers[2].should_receive(:errors).and_return([])
+
       runner.should_receive(:workers).and_return(workers)
 
       app.set :queue_runner, runner
@@ -56,6 +71,16 @@ describe QueueStick::WebServer do
     describe "messages_processed counter" do
       it "should have the messages_processed counter header" do
         last_response.body.should =~ /<h\d>Messages processed<\/h\d>/
+      end
+    end
+
+    describe "errors" do
+      it "should have the total error count" do
+        last_response.body.should =~ /<h1>Errors \(1\)<\/h1>/
+      end
+
+      it "should have the single error on the page" do
+        last_response.body.should =~ /<span class="klass">ArgumentError/
       end
     end
   end

@@ -44,6 +44,13 @@ module QueueStick
         end
       end
 
+      # Pull out the error messages per thread.
+      @errors = []
+      @workers.each do |worker|
+        @errors += worker.errors
+      end
+      @errors.sort! { |a, b| a.timestamp <=> b.timestamp }.reverse!
+
       erb :index
     end
 

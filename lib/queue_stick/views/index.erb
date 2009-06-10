@@ -68,33 +68,35 @@
       <% end %>
       </div>
       <div class="yui-u">
-        <h1>Errors (3)</h1>
+        <h1>Errors (<%= @errors.count %>)</h1>
         <ul>
-          <li class="error" id="error-1">
-            <span class="klass">ArgumentError</span> | 
-            <span class="time">5 minutes ago</span> | 
-            <span class="desc">Wrong number of arguments (0 for 1...</span>
+          <% @errors.each_with_index do |error, id| %>
+          <li class="error" id="error-<%= id %>">
+            <span class="klass"><%= error.exceptions[0].class.to_s %></span> | 
+            <span class="time"><%= time_ago_or_time_stamp(error.timestamp) %></span> | 
+            <span class="desc"><%= truncate(error.exceptions[0].message, 20) %></span>
           </li>
-          <li class="error-detail" id="error-1-detail">
+          <li class="error-detail" id="error-<%= id %>-detail">
               <ul>
-                <li><strong>Message ID:</strong> 94939002</li>
-                <li><strong>Timestamp:</strong> June 14, 2009</li>
+                <li><strong>Message ID:</strong> <%= error.message.id %></li>
+                <li><strong>Timestamp:</strong> <%= error.timestamp %></li>
               </ul>
 <pre>
-ArgumentError: ArgumentError
-        from (irb):1
+Queue message body:
+----------------------
+<%= error.message.body %>
+
+----------------------
+Exceptions:
+----------------------
+<% error.exceptions.each do |exception| %>
+<%= exception.message %>
+<%= exception.backtrace.join("\n") %>
+----------------------
+<% end %>
 </pre>
           </li>
-          <li class="error" id="error-2">
-            <span class="klass">ArgumentError</span> |
-            <span class="time">7 minutes ago</span> | 
-            <span class="desc">Wrong number of arguments (0 for 1...</span>
-          </li>
-          <li class="error" id="error-3">
-            <span class="klass">ArgumentError</span> |
-            <span class="time">9 minutes ago</span> | 
-            <span class="desc">Wrong number of arguments (0 for 2...</span>
-          </li>
+          <% end %>
         </ul>
       </div>
     </div>
