@@ -61,7 +61,7 @@ module QueueStick
         error = WorkerError.new(message)
         error.exceptions << process_error
         begin
-          recover
+          recover(message.body)
         rescue Exception => recover_error
           error.exceptions << recover_error
         end
