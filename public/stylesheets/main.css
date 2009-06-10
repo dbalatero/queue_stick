@@ -19,7 +19,7 @@
   }
 
   li.error-detail {
-    /*display: none;*/
+    display: none;
     padding: 4px;
   }
 
