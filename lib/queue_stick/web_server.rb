@@ -49,7 +49,8 @@ module QueueStick
       @workers.each do |worker|
         @errors += worker.errors
       end
-      @errors.sort! { |a, b| a.timestamp <=> b.timestamp }.reverse!
+      @errors.sort! { |a, b| a.timestamp <=> b.timestamp }
+      @errors.reverse!
 
       erb :index
     end
