@@ -10,6 +10,30 @@ describe QueueStick::Worker do
     end
   end
 
+  describe "shell_run" do
+    before(:all) do
+      @worker = QueueStick::Worker.new
+    end
+
+    it "should raise an error if a process fails" do
+      lambda {
+        @worker.shell_run("ls -l /fds8aufj92njkdsajfdslafjdsafdsa 2>/dev/null")
+      }.should raise_error(QueueStick::Worker::ShellCommandError)
+    end
+
+    it "should not raise an error if a process doesn't fail" do
+      lambda {
+        @worker.shell_run("ls -l /")
+      }.should_not raise_error
+    end
+
+    it "should return its output" do
+      result = @worker.shell_run("ls -l /")
+      result.should_not be_empty
+      result.should =~ /bin/  # is this a bad assumption?
+    end
+  end
+
   describe "run_loop" do
     class RunLoopTestWorker < QueueStick::Worker
     end

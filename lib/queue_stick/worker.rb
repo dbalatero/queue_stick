@@ -1,5 +1,7 @@
 module QueueStick
   class Worker
+    class ShellCommandError < StandardError; end
+
     # TODO(dbalatero): configurable?
     MAX_ERRORS = 5
 
@@ -21,6 +23,24 @@ module QueueStick
 
     def delete_message_from_queue(message)
       raise NotImplementedError, "#delete_message_from_queue needs to be implemented in a subclass."
+    end
+    
+    # This method will run a shell command, and return the
+    # output of the command's run.
+    #
+    # It will loudly raise an error if the shell command fails,
+    # which, if raised in your process() method, will be 
+    # guaranteed to hit your recover() method.
+    def shell_run(cmd)
+      result = `#{cmd}`
+      process_status = $?
+      
+      if !process_status.success?
+        # TODO(dbalatero): get the stderr output.
+        raise ShellCommandError, "Error running shell command: #{cmd}"
+      end
+
+      result
     end
 
     def run_loop
