@@ -74,8 +74,8 @@ module QueueStick
       raise NotImplementedError, "Your worker class needs to implement def process(message)!"
     end
 
-    def recover
-      raise NotImplementedError, "Your worker class needs to implement def recover()!"
+    def recover(message)
+      raise NotImplementedError, "Your worker class needs to implement def recover(message)!"
     end
 
     def counter(counter_name)

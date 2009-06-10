@@ -12,7 +12,7 @@ module QueueStick
     def process(message)
     end
 
-    def recover
+    def recover(message)
     end
   end
 end

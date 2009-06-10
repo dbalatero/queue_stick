@@ -39,6 +39,6 @@ class MyWorker < QueueStick::SQSWorker
   end
 
   #DONE
-  def recover
+  def recover(message)
   end
 end

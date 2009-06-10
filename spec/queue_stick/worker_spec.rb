@@ -147,7 +147,7 @@ describe QueueStick::Worker do
     it "should raise NotImplementedError at the base class" do
       lambda {
         worker = QueueStick::Worker.new
-        worker.recover
+        worker.recover(:foo)
       }.should raise_error(NotImplementedError)
     end
   end

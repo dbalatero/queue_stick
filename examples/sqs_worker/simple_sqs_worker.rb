@@ -13,7 +13,7 @@ class SimpleSQSWorker < QueueStick::SQSWorker
     sleep 2
   end
 
-  def recover
-    puts "whoops, there was an error. oh well!"
+  def recover(message)
+    puts "whoops, there was an error with message: #{message}. oh well!"
   end
 end
