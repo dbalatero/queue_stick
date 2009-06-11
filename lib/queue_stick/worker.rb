@@ -67,6 +67,7 @@ module QueueStick
         end
         @errors << error
         @errors.shift if @errors.size > MAX_ERRORS
+        counter(:errors_caught).increment!
       end
     end
 
@@ -105,6 +106,7 @@ module QueueStick
     protected
     def self.initialize_default_counters
       counter :messages_processed
+      counter :errors_caught
     end
 
     initialize_default_counters 

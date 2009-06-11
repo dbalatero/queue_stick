@@ -89,6 +89,16 @@ describe QueueStick::Worker do
       worker.counter(:messages_processed).counts[0].should == 2
     end
 
+    it "should automatically increment errors_caught on each error loop" do
+      worker = QueueStick::MockWorker.new
+      worker.should_receive(:process).twice.and_raise(ArgumentError)
+      worker.counter(:errors_caught).counts[0].should == 0
+      worker.run_loop
+      worker.counter(:errors_caught).counts[0].should == 1
+      worker.run_loop
+      worker.counter(:errors_caught).counts[0].should == 2
+    end
+
     it "should call delete_message_from_queue if process succeeds" do
       @worker.should_receive(:process).and_return(true)
       @worker.should_receive(:delete_message_from_queue).and_return(true)
@@ -166,6 +176,13 @@ describe QueueStick::Worker do
       class WorkerF < QueueStick::Worker
       end
       WorkerF.counters.should include(:messages_processed)
+    end
+
+    it "should always have a counter to keep track of errors caught" do
+      QueueStick::Worker.counters.should include(:errors_caught)
+      class WorkerG < QueueStick::Worker
+      end
+      WorkerG.counters.should include(:errors_caught)
     end
 
     it "should not add the same counter twice" do
