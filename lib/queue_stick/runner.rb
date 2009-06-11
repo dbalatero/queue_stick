@@ -62,9 +62,7 @@ module QueueStick
     end
 
     def errors
-      workers.map { |worker|
-        worker.errors
-      }.flatten!
+      workers.map { |worker| worker.errors }.flatten
     end
 
     def start_workers!

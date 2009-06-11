@@ -20,6 +20,37 @@ describe QueueStick::Helpers do
     end
   end
 
+  describe "time_ago_or_time_stamp" do
+    before(:all) do
+      @to_time = Time.now
+    end
+
+    it "should handle minutes ago" do
+      result = time_ago_or_time_stamp(@to_time - (5 * 60), @to_time)
+      result.should == "5 minutes ago"
+    end
+
+    it "should handle hours ago" do
+      result = time_ago_or_time_stamp(@to_time - (70 * 60), @to_time)
+      result.should == "1 hour ago"
+    end
+
+    it "should handle multiple hours ago" do
+      result = time_ago_or_time_stamp(@to_time - (110 * 60), @to_time)
+      result.should == "2 hours ago"
+    end
+
+    it "should handle days ago" do
+      result = time_ago_or_time_stamp(@to_time - (1500 * 60), @to_time)
+      result.should == "1 day ago"
+    end
+
+    it "should handle 1.5 - 2 days ago" do
+      result = time_ago_or_time_stamp(@to_time - (2180 * 60), @to_time)
+      result.should == "2 days ago"
+    end
+  end
+
   describe "truncate" do
     it "should not put ... after a string that is less than max length" do
       result = truncate('string', 20)

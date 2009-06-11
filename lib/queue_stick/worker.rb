@@ -50,24 +50,24 @@ module QueueStick
       message = get_message_from_queue
       if message.nil?
         sleep(5)
-        return
-      end
+      else
 
-      begin
-        process(message.body)
-        delete_message_from_queue(message)
-        counter(:messages_processed).increment!
-      rescue Exception => process_error
-        error = WorkerError.new(message)
-        error.exceptions << process_error
         begin
-          recover(message.body)
-        rescue Exception => recover_error
-          error.exceptions << recover_error
+          process(message.body)
+          delete_message_from_queue(message)
+          counter(:messages_processed).increment!
+        rescue Exception => process_error
+          error = WorkerError.new(message)
+          error.exceptions << process_error
+          begin
+            recover(message.body)
+          rescue Exception => recover_error
+            error.exceptions << recover_error
+          end
+          @errors << error
+          @errors.shift if @errors.size > MAX_ERRORS
+          counter(:errors_caught).increment!
         end
-        @errors << error
-        @errors.shift if @errors.size > MAX_ERRORS
-        counter(:errors_caught).increment!
       end
     end
 
