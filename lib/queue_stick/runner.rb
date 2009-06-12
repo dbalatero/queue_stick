@@ -86,7 +86,9 @@ module QueueStick
       @io.puts "Starting up #{workers.size} workers..."
       @threads = workers.map do |worker|
         Thread.new do
-          worker.run_loop while true
+          loop do
+            worker.run_loop
+          end
         end
       end
 
