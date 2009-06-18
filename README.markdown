@@ -26,7 +26,7 @@ View your runtime stats in the browser
 Find bugs? Feature requests?
 ============================
 
-See the Lighthouse tracker at http://dbalatero.lighthouseapp.com/projects/31581-queue_stick
+See the [Lighthouse tracker](http://dbalatero.lighthouseapp.com/projects/31581-queue_stick)
 
 Copyright
 =========
