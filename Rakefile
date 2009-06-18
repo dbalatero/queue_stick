@@ -6,7 +6,7 @@ begin
   Jeweler::Tasks.new do |gem|
     gem.name = "queue_stick"
     gem.summary = %Q{This library allows you to write the minimal amount of code to process queue messages. Supports SQS out of the box.}
-    gem.email = "dbalatero@gmail.com"
+    gem.email = "david@bitwax.cd"
     gem.homepage = "http://github.com/dbalatero/queue_stick"
     gem.authors = ["David Balatero"]
 
