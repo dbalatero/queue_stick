@@ -55,6 +55,34 @@ describe QueueStick::WindowCounter do
     end
   end
 
+  describe "internal memory management" do
+    it "should expire old timestamps when they get too big" do
+      counter = QueueStick::WindowCounter.new(:test, 5)
+
+      current_min = 30
+      5.times do
+        Time.stub!(:now).
+          and_return(Time.mktime(2009, 5, 18, 22, current_min, 0, 0))
+        counter.increment!
+        current_min += 1
+      end
+
+      # No expiry yet.
+      counter.tracked_minutes.should == 5
+
+      5.times do
+        Time.stub!(:now).
+          and_return(Time.mktime(2009, 5, 18, 22, current_min, 0, 0))
+        counter.increment!
+        current_min += 1
+      end
+
+      # Should have expired some values, since we have tracked
+      # double the minutes of 
+      counter.tracked_minutes.should < 10
+    end
+  end
+
   describe "increment!" do
     before(:each) do
       @counter = QueueStick::WindowCounter.new(:test, 3)
