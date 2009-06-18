@@ -33,6 +33,26 @@ describe QueueStick::WindowCounter do
       counter = QueueStick::WindowCounter.new(:test, 5)
       counter.count.should == 0
     end
+
+    # see lighthouse ticket #11
+    it "should not flip the count back to 0 randomly with multiple threads contending" do
+      counter = QueueStick::WindowCounter.new(:test, 1)
+      threads = []
+
+      # 16 increments, 4 threads
+      4.times do
+        threads << Thread.new(counter) do |c|
+          4.times do
+            c.count
+            c.increment!
+            c.count
+          end
+        end
+      end
+      threads.each { |thread| thread.join }
+
+      counter.count.should == 16
+    end
   end
 
   describe "increment!" do
@@ -73,7 +93,7 @@ describe QueueStick::WindowCounter do
       @counter.count.should == 33
 
       Time.stub!(:now).
-        and_return(Time.mktime(2009, 5, 18, 22, 36, 0, 0))
+        and_return(Time.mktime(2009, 5, 18, 22, 37, 31, 0))
       @counter.count.should == 0
     end
   end

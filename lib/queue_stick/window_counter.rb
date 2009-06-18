@@ -1,3 +1,5 @@
+require 'thread'
+
 module QueueStick
   class WindowCounter
     attr_reader :name
@@ -8,60 +10,40 @@ module QueueStick
             'counter requires a name' if name.nil?
       raise ArgumentError,
             'counter requires a time window' if window.nil?
+      
       @name = name
+      @window = window
 
-      # Converted to seconds.
-      @window = window * 60
-      @count = 0
-
-      @counts = []
-      @timings = []
+      @counts = Hash.new { |h, k| h[k] = 0 }
+      @mutex = Mutex.new
     end
 
-    # TODO(dbalatero): break this up?
     def count
-      to_delete = []
+      current_minute = self.class.current_minute
+      range = (current_minute - @window)..current_minute
       sum = 0
-      threshold = threshold_time
-      
-      @counts.each_index do |index|
-        if @timings[index] < threshold
-          to_delete << index
-        else
-          sum += @counts[index]
+      @mutex.synchronize do
+        range.each do |key|
+          sum += @counts[key]
         end
       end
-
-      to_delete.each do |index|
-        @counts.delete_at(index)
-        @timings.delete_at(index)
-      end
-
       sum
     end
 
     def increment!(by = 1)
-      current = Time.now
-      current -= current.sec
-      timing = @timings.last
-
-      if timing and 
-         self.class.times_have_same_minute?(current, timing)
-        @counts[@counts.size - 1] += by
-      else
-        @counts << by
-        @timings << current
+      current_minute = self.class.current_minute
+      @mutex.synchronize do
+        @counts[current_minute] += by
       end
     end
 
     private
-    def self.times_have_same_minute?(time1, time2)
-      time1.to_i / 60 == time2.to_i / 60
+    def self.current_minute
+      minute_for(Time.now)
     end
 
-    def threshold_time
-      current = Time.now
-      current - (current.sec + @window) + 60
+    def self.minute_for(time)
+      (time.to_f / 60).round
     end
   end
 end
