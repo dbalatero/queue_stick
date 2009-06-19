@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
+require 'rubygems'
 require 'right_aws'
 
 sqs = RightAws::SqsGen2.new('<your access key>',
