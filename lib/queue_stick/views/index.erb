@@ -68,7 +68,7 @@
       <% end %>
       </div>
       <div class="yui-u">
-        <h1>Errors (<%= @errors.count %>)</h1>
+        <h1>Errors (<%= @errors.size %>)</h1>
         <ul>
           <% @errors.each_with_index do |error, id| %>
           <li class="error" id="error-<%= id %>">
